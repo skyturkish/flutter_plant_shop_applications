@@ -24,22 +24,87 @@ class _ListViewProductItemsState extends State<ListViewProductItems> {
       padding: EdgeInsets.all(8.0),
       itemCount: _items.length,
       itemBuilder: (context, index) {
+        final ProductItem currentProduct = _items[index];
         return Card(
           child: Column(
             children: [
-              Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Image.asset(_items[index].picturePath),
-                  IsFavorite(isfavorite: _items[index].isFavorite,),
-                  
-                ],
-              ),
-              Text(_items[index].name)
+              PictureAndFavoriteButton(currentProduct: currentProduct),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0),
+                child: InformationAboutProduct(currentProduct: currentProduct),
+              )
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class InformationAboutProduct extends StatelessWidget {
+  const InformationAboutProduct({
+    Key? key,
+    required this.currentProduct,
+  }) : super(key: key);
+
+  final ProductItem currentProduct;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              currentProduct.name,
+              style: Theme.of(context).textTheme.headline6,
+            )),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '\$${currentProduct.price}',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                icon: Icon(
+                  Icons.add_box_rounded,
+                  color: Colors.green,
+                  size: 48,
+                )),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class PictureAndFavoriteButton extends StatelessWidget {
+  const PictureAndFavoriteButton({
+    Key? key,
+    required this.currentProduct,
+  }) : super(key: key);
+
+  final ProductItem currentProduct;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topRight,
+      children: <Widget>[
+        Container(
+            height: MediaQuery.of(context).size.height * 11 / 32,
+            width: MediaQuery.of(context).size.width * 9 / 10,
+            child: FittedBox(
+                fit: BoxFit.fill,
+                child: Image.asset(currentProduct.picturePath))),
+        IsFavorite(
+          isfavorite: currentProduct.isFavorite,
+        ),
+      ],
     );
   }
 }
@@ -96,45 +161,5 @@ class FlowersPictures {
   final String whiteFlower = 'assets/flowers/whiteflower.jpg';
   final String yellowFlower = 'assets/flowers/yellowflower.jpg';
 }
-/**Container(
-          height: MediaQuery.of(context).size.height * 7 / 31,
-          child: Card(
-            
-            color: Colors.black,
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.red,
-                ),
-                Container(
-                  color: Colors.amberAccent,
-                )
-              ],
-            ),
-          ),
-        ); */
 
-
-
-
-
-
-
-
-
-
-        /**Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width*10/21,
-              height: MediaQuery.of(context).size.height * 7 / 31,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage(_items[index].picturePath),
-                ),
-              ),
-            ),
-            Container(height: 40,color: Colors.black,)
-          ],
-        );---------------Çalışıyor bu  */
+/**Fitted box parent'inde bir yer varsa kaplar. o an aldığı yeri değil. belirli sayılar olması lazım oranlar değil */

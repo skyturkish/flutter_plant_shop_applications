@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_plant_shop_ui/core/Listview_horizontally_categories.dart';
 
 import 'package:flutter_plant_shop_ui/core/container_picture.dart';
+import 'package:flutter_plant_shop_ui/product/BottomNavigation.dart';
 import 'package:flutter_plant_shop_ui/product/ProductListView.dart';
 
 class MainPage extends StatefulWidget {
@@ -11,7 +13,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,15 +21,17 @@ class _MainPageState extends State<MainPage> {
           padding: Paddingutilities().generalPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Expanded(flex: 2, child: Top()),
               Expanded(flex: 4, child: FirstTexts()),
               Expanded(flex: 6, child: TextsOnPicture()),
-              Expanded(flex: 2, child: ElevatedButton(onPressed: (){}, child: Text('popular'))),
-              Expanded(flex: 14, child:ListViewProductItems()),
+              Expanded(flex: 2, child: ListViewCategories()),
+              Expanded(flex: 14, child: ListViewProductItems()),
             ],
           ),
         ),
+        bottomNavigationBar: BottomNavigtaionMyBar(),
+       
       ),
     );
   }
@@ -54,7 +57,7 @@ class TextsOnPicture extends StatelessWidget {
             ),
             Text(TextUtilities().today,
                 style: Theme.of(context).textTheme.headline5),
-            Spacer(),
+            const Spacer(),
             Text(TextUtilities().discountUntil,
                 style: Theme.of(context).textTheme.subtitle2),
             Text(TextUtilities().discountThirty,
@@ -107,10 +110,11 @@ class Top extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-        Spacer(),
-        IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.notifications_none)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        const Spacer(),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+        IconButton(
+            onPressed: () {}, icon: const Icon(Icons.notifications_none)),
       ],
     );
   }
@@ -138,4 +142,3 @@ class Paddingutilities {
 class ImageItems {
   final String mainPagePictureVase = "assets/jpg/mainPagePicture.jpg";
 }
-

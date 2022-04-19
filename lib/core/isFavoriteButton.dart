@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class IsFavorite extends StatefulWidget {
   IsFavorite({Key? key, required this.isfavorite}) : super(key: key);
   bool isfavorite;
@@ -24,3 +25,6 @@ class IisFavoriteState extends State<IsFavorite> {
     );
   }
 }
+
+
+// Iconbutton kendisinden gelen bir paddingi var unutma 
