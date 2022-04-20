@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_plant_shop_ui/core/IsFavoriteButtonn.dart';
 import 'package:flutter_plant_shop_ui/core/container_picture.dart';
 import 'package:flutter_plant_shop_ui/core/isFavoriteButton.dart';
+import 'package:flutter_plant_shop_ui/models/ProductItem.dart';
+import 'package:flutter_plant_shop_ui/views/product_detail_view.dart';
 
 class ListViewProductItems extends StatefulWidget {
   const ListViewProductItems({Key? key}) : super(key: key);
@@ -21,16 +24,21 @@ class _ListViewProductItemsState extends State<ListViewProductItems> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(8.0),
+      padding: PaddingUtilites().generalPadding,
       itemCount: _items.length,
       itemBuilder: (context, index) {
         final ProductItem currentProduct = _items[index];
         return Card(
           child: Column(
             children: [
-              PictureAndFavoriteButton(currentProduct: currentProduct),
+              PictureAndFavoriteButton(
+                currentProduct: currentProduct,
+                index: index,
+                items: _items,
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0),
+                padding:
+                    const EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0),
                 child: InformationAboutProduct(currentProduct: currentProduct),
               )
             ],
@@ -40,6 +48,53 @@ class _ListViewProductItemsState extends State<ListViewProductItems> {
     );
   }
 }
+
+class PictureAndFavoriteButton extends StatelessWidget {
+  const PictureAndFavoriteButton({
+    Key? key,
+    required this.currentProduct,
+    required this.index,
+    required this.items,
+  }) : super(key: key);
+  final List<ProductItem> items;
+  final ProductItem currentProduct;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topRight,
+      children: <Widget>[
+        Container(
+            height: MediaQuery.of(context).size.height * 11 / 32,
+            width: MediaQuery.of(context).size.width * 9 / 10,
+            child: FittedBox(
+                fit: BoxFit.fill,
+                child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return ProductDetailPage(
+                            current_item: items[index],
+                          );
+                        },
+                        fullscreenDialog: true,
+                        settings: const RouteSettings(),
+                      ));
+                    },
+                    child: Image.asset(currentProduct.picturePath)))),
+        IconButton(
+          icon: IsFavoriteButton(currentProduct: currentProduct),
+          onPressed: () {
+            currentProduct.isFavorite = !currentProduct.isFavorite;
+            
+          },
+        ),
+      ],
+    );
+  }
+}
+
+
 
 class InformationAboutProduct extends StatelessWidget {
   const InformationAboutProduct({
@@ -82,44 +137,8 @@ class InformationAboutProduct extends StatelessWidget {
   }
 }
 
-class PictureAndFavoriteButton extends StatelessWidget {
-  const PictureAndFavoriteButton({
-    Key? key,
-    required this.currentProduct,
-  }) : super(key: key);
-
-  final ProductItem currentProduct;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topRight,
-      children: <Widget>[
-        Container(
-            height: MediaQuery.of(context).size.height * 11 / 32,
-            width: MediaQuery.of(context).size.width * 9 / 10,
-            child: FittedBox(
-                fit: BoxFit.fill,
-                child: Image.asset(currentProduct.picturePath))),
-        IsFavorite(
-          isfavorite: currentProduct.isFavorite,
-        ),
-      ],
-    );
-  }
-}
-
-class ProductItem {
-  double price;
-  String name;
-  String picturePath;
-  bool isFavorite;
-  ProductItem({
-    required this.price,
-    required this.name,
-    required this.picturePath,
-    this.isFavorite = false,
-  });
+class PaddingUtilites {
+  final EdgeInsets generalPadding = EdgeInsets.all(8.0);
 }
 
 class ProductItems {
