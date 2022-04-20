@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plant_shop_ui/core/IsFavoriteButtonn.dart';
-import 'package:flutter_plant_shop_ui/core/container_picture.dart';
-import 'package:flutter_plant_shop_ui/core/isFavoriteButton.dart';
 import 'package:flutter_plant_shop_ui/models/ProductItem.dart';
+import 'package:flutter_plant_shop_ui/product/favorite_button.dart';
 import 'package:flutter_plant_shop_ui/views/product_detail_view.dart';
 
 class ListViewProductItems extends StatefulWidget {
@@ -59,42 +57,38 @@ class PictureAndFavoriteButton extends StatelessWidget {
   final List<ProductItem> items;
   final ProductItem currentProduct;
   final int index;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.topRight,
       children: <Widget>[
         Container(
-            height: MediaQuery.of(context).size.height * 11 / 32,
-            width: MediaQuery.of(context).size.width * 9 / 10,
-            child: FittedBox(
-                fit: BoxFit.fill,
-                child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return ProductDetailPage(
-                            current_item: items[index],
-                          );
-                        },
-                        fullscreenDialog: true,
-                        settings: const RouteSettings(),
-                      ));
-                    },
-                    child: Image.asset(currentProduct.picturePath)))),
-        IconButton(
-          icon: IsFavoriteButton(currentProduct: currentProduct),
-          onPressed: () {
-            currentProduct.isFavorite = !currentProduct.isFavorite;
-            
-          },
+          height: MediaQuery.of(context).size.height * 11 / 32,
+          width: MediaQuery.of(context).size.width * 9 / 10,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return ProductDetailPage(
+                      current_item: items[index],
+                    );
+                  },
+                  fullscreenDialog: true,
+                  settings: const RouteSettings(),
+                ));
+              },
+              child: Image.asset(currentProduct.picturePath),
+            ),
+          ),
         ),
+        FavoriteButton(currentProduct: currentProduct),
       ],
     );
   }
 }
-
-
 
 class InformationAboutProduct extends StatelessWidget {
   const InformationAboutProduct({
@@ -144,6 +138,7 @@ class PaddingUtilites {
 class ProductItems {
   FlowersPictures flowersPath = FlowersPictures();
   late final List<ProductItem> items;
+
   ProductItems() {
     items = [
       ProductItem(
