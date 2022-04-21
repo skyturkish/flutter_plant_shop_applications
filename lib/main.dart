@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plant_shop_ui/views/main_page.dart';
+import 'package:flutter_plant_shop_ui/views/welcomepage.dart';
 
 void main() => runApp(const MyApp());
 
