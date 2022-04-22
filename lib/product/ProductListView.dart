@@ -138,6 +138,7 @@ class InformationAboutProduct extends StatelessWidget {
 
 class PaddingUtilites {
   final EdgeInsets generalPadding = EdgeInsets.all(8.0);
+  final EdgeInsets generalDetailPadding = EdgeInsets.all(14.0);
   final EdgeInsets productInformation =
       const EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0);
 }
